@@ -1,0 +1,18 @@
+[package]
+name = "ppaass-proxy-manager"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.7.5"
+tokio = { version = "1.38.0", features = ["full"] }
+anyhow = "1.0.86"
+thiserror = "1.0.61"
+serde = { version = "1.0.203", features = ["derive"] }
+chrono = { version = "0.4.38", features = ["serde"] }
+cipher = "0.4.4"
+ecb = "0.1.2"
+rsa = "0.9.6"
+rand = "0.8.5"
+tracing = "0.1.40"
+md5 = "0.7.0"
