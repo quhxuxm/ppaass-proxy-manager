@@ -1,18 +1,24 @@
+use anyhow::Result;
 use axum::extract::Json;
 use axum::extract::Path;
 use axum::http::StatusCode;
 use chrono::Utc;
+use rusqlite::{Connection, OpenFlags};
 use tracing::error;
 use crate::bo::user::{
     CreateUserRequestBo, CreateUserResponseBo, GetUserResponseBo, UserSideRsaKeyPairBo,
 };
 use crate::encryption::generate_rsa_key_pair;
+pub fn to_md5(target: String) -> String {
+    let target = md5::compute(target);
+    format!("{target:x}")
+}
+
 pub async fn create_user(
     Json(create_user_request): Json<CreateUserRequestBo>,
 ) -> Result<Json<CreateUserResponseBo>, StatusCode> {
     let user_name = create_user_request.user_name;
-    let user_name_md5 = md5::compute(user_name);
-    let user_name_md5 = format!("{user_name_md5:x}");
+    let user_name_md5 = to_md5(user_name);
     let agent_rsa_key_pair = tokio::spawn(async move {
         generate_rsa_key_pair().map_err(|e| {
             error!("Fail to generate rsa key pair for agent because of error: {e:?}");

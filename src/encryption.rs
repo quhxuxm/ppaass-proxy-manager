@@ -11,7 +11,7 @@ pub struct RsaKeyPair {
 }
 
 pub fn generate_rsa_key_pair() -> Result<RsaKeyPair> {
-    let private_key = RsaPrivateKey::new(&mut OsRng, 2048).expect("Fail to generate private key");
+    let private_key = RsaPrivateKey::new(&mut OsRng, 2048)?;
     let public_key = RsaPublicKey::from(&private_key);
     let private_key_pem = private_key
         .to_pkcs8_pem(LineEnding::CRLF)?;
