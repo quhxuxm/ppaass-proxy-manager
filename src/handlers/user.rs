@@ -1,9 +1,10 @@
+use std::sync::Arc;
 use anyhow::Result;
-use axum::extract::Json;
+use axum::extract::{Json, State};
 use axum::extract::Path;
 use axum::http::StatusCode;
 use chrono::Utc;
-use rusqlite::{Connection, OpenFlags};
+use sqlx::{Pool, Sqlite};
 use tracing::error;
 use crate::bo::user::{
     CreateUserRequestBo, CreateUserResponseBo, GetUserResponseBo, UserSideRsaKeyPairBo,
@@ -16,6 +17,7 @@ pub fn to_md5(target: String) -> String {
 
 pub async fn create_user(
     Json(create_user_request): Json<CreateUserRequestBo>,
+    State(database): State<Arc<Pool<Sqlite>>>,
 ) -> Result<Json<CreateUserResponseBo>, StatusCode> {
     let user_name = create_user_request.user_name;
     let user_name_md5 = to_md5(user_name);

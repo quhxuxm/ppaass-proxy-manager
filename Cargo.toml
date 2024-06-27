@@ -16,6 +16,6 @@ rsa = "0.9.6"
 rand = "0.8.5"
 tracing = "0.1.40"
 md5 = "0.7.0"
-rusqlite = { version = "0.31.0", features = ["bundled", "csv"] }
+sqlx = { version = "0.7.4", features = ["sqlite", "runtime-tokio-native-tls"] }
 tower = "0.4.13"
 
